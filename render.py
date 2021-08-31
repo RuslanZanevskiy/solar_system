@@ -28,7 +28,7 @@ class Camera:
         pygame.display.flip()
 
 def main():
-    fps = 120
+    fps = 180
     clock = pygame.time.Clock()
 
     size = w, h = (800, 600)

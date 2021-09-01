@@ -7,46 +7,38 @@ pygame.init()
 class Camera:
     def __init__(self, screen, x, y, w, h, zoom=1):
         self.screen = screen
-        self.planets = dict()
-        self.stars = dict()
+        self.fobjects = dict()
         self.x, self.y = x, y
         self.size = self.w, self.h = w, h
         self.zoom = zoom
 
     def render_frame(self, rotate=True):
         self.screen.fill((0, 0, 0))
-        for star in self.stars.values():
-            cords = (round(self.x - star[0].x), round(self.y - star[0].y)) #from global cords to cords on screen
-            pygame.draw.circle(self.screen, star[1], cords, star[0].r)
-            star[0].rotate()
-
-        for planet in self.planets.values():
-            cords = (round(self.x - planet[0].x), round(self.y - planet[0].y)) #from global cords to cords on screen
-            pygame.draw.circle(self.screen, planet[1], cords, planet[0].r)
-            planet[0].rotate()
+        for fobject in self.fobjects.values():
+            cords = (round(self.x - fobject[0].x), round(self.y - fobject[0].y)) #from global cords to cords on screen
+            pygame.draw.circle(self.screen, fobject[1], cords, fobject[0].r)
+            fobject[0].rotate()
         
         pygame.display.flip()
 
 def main():
-    fps = 180
+    fps = 120
     clock = pygame.time.Clock()
 
-    size = w, h = (800, 600)
+    size = w, h = (1024, 650)
     screen = pygame.display.set_mode(size)
     pygame.display.set_caption('Solar System')
 
-    stars = dict()
-    planets = dict()
-    points = dict()
+    fobjects = dict()
 
-    stars['main'] = (solar_system.Star(0, 0, 60, 200), [255, 237, 0])
-    planets['main1'] = (solar_system.Planet(80, -80, 20, 20, stars['main'][0], 0.5),  [0, 255, 150])
-    planets['main2'] = (solar_system.Planet(-150, 150, 28, 30, stars['main'][0], 0.2), [200, 240, 30])
+    fobjects['star1'] = (solar_system.Star(0, 0, 60, 200, None), [255, 237, 0])
+    fobjects['p1'] = (solar_system.Planet(120, -120, 30, 20, fobjects['star1'][0]),  [0, 255, 150])
+    fobjects['p2'] = (solar_system.Planet(380, 480, 40, 30, fobjects['star1'][0]), [200, 240, 30])
+    fobjects['s2_1'] = (solar_system.Planet(440, 540, 10, 8, fobjects['p2'][0]), [200, 200, 200])
 
     main_camera = Camera(screen, 0, 0, w, h)
 
-    main_camera.stars = stars
-    main_camera.planets = planets
+    main_camera.fobjects = fobjects
 
 
     #mouse control
